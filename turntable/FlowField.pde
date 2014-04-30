@@ -10,11 +10,11 @@ class FlowField {
     cols = width/resolution;
     rows = height/resolution;
     field = new PVector[cols][rows];
-    t = 0;
-    xoff = width/2;
-    yoff = height/2;
-    a = 300;
-    flowBand = 5;
+    t = 0; //theta, angle around the circle
+    xoff = width/2; //x pos of center of field
+    yoff = height/2; //y pos of center of field
+    a = 300; //radius of the circular flowfield
+    flowBand = 5; //this will make the size of the circular flow field bigger or smaller (cannot be zero)
     for (int i = 0; i <cols; i++) {
       for (int j=0; j < rows; j++) {
         field[i][j] = new PVector(0,0);
@@ -34,7 +34,7 @@ class FlowField {
           int cy = j*resolution;
           //find the points in the flowfield that are in our band
           float d = dist(cx, cy, x, y);
-          if (d>0 && d<width/(cols/flowBand)) {
+          if (d<width/(cols/flowBand)) {
             field[i][j] = new PVector(cos(t+PI/2), sin(t+PI/2));
           }
         }
