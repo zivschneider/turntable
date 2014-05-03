@@ -30,9 +30,9 @@ void draw() {
   //pg.beginDraw(); 
 
   //pg.background(0);
-  background(0);
+  background(255);
   // Display the flowfield in "debug" mode
-  // if (debug) flowfield.display();
+  if (debug) flowfield.display();
   // Tell all the vehicles to follow the flow field
   //for (int i = 0; i < arrayLength; i++) {
   for (Vehicle v : vehicles) {
