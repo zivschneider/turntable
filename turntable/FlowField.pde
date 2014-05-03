@@ -1,7 +1,8 @@
 class FlowField {
   float t, x, y, f, a;
   float xoff, yoff;
-  int resolution = 16;
+  PVector center;
+  int resolution;
   PVector[][] field;
   int cols, rows, flowBand;
 
@@ -13,14 +14,15 @@ class FlowField {
     t = 0; //theta, angle around the circle
     xoff = width/2; //x pos of center of field
     yoff = height/2; //y pos of center of field
+    center = new PVector(xoff, yoff);
     a = 300; //radius of the circular flowfield
     flowBand = 5; //this will make the size of the circular flow field bigger or smaller (cannot be zero)
     for (int i = 0; i <cols; i++) {
       for (int j=0; j < rows; j++) {
-        field[i][j] = new PVector(0,0);
+        field[i][j] = new PVector(0, 0);
       }
     } 
-    init();
+    initC();
   }
 
   void init() {
@@ -37,6 +39,24 @@ class FlowField {
           if (d<width/(cols/flowBand)) {
             field[i][j] = new PVector(cos(t+PI/2), sin(t+PI/2));
           }
+        }
+      }
+    }
+  }
+
+  void initC() {
+    for (int i = 0; i <cols; i++) {
+      for (int j=0; j < rows; j++) {
+        int cx = i*resolution;
+        int cy = j*resolution;
+        PVector cv = new PVector(cx, cy);
+        cv.sub(center);
+        if (cv.mag()<a) {
+          PVector a = new PVector(cx, );
+          a.sub(center);
+          float angle = PVector.angleBetween(center, a);
+          //println(i + "," + j + "," + angle);
+          field[i][j] = new PVector(cos(angle+PI/2), sin(angle+PI/2));
         }
       }
     }
