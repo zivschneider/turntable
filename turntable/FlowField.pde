@@ -52,9 +52,8 @@ class FlowField {
         PVector cv = new PVector(cx, cy);
         cv.sub(center);
         if (cv.mag()<a) {
-          PVector a = new PVector(cx, );
-          a.sub(center);
-          float angle = PVector.angleBetween(center, a);
+          //float angle = PVector.angleBetween(center, a);
+          float angle = atan2(cy-center.y, cx-center.x);
           //println(i + "," + j + "," + angle);
           field[i][j] = new PVector(cos(angle+PI/2), sin(angle+PI/2));
         }
