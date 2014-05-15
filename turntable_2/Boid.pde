@@ -1,12 +1,4 @@
-// The Nature of Code
-// Daniel Shiffman
-// http://natureofcode.com
 
-float swt = 25.0;     //sep.mult(25.0f);
-float awt = 4.0;      //ali.mult(4.0f);
-float cwt = 5.0;      //coh.mult(5.0f);
-float maxspeed = 1;
-float maxforce = 0.025;
 
 
 // Flocking
@@ -17,14 +9,23 @@ float maxforce = 0.025;
 // Methods for Separation, Cohesion, Alignment added
 
 class Boid {
-
+  
+  float swt, awt, cwt;
+  float maxspeed = 1;
+  float maxforce = 0.25;
   PVector loc;
   PVector vel;
   PVector acc;
   float r;
+  color c;
   FlowField f;
 
-  Boid(float x, float y) {
+  Boid(float x, float y, float _swt, float _awt, float _cwt, color _c) {
+    
+    swt = _swt;
+    awt = _awt;
+    cwt = _cwt;
+    c = _c;
     acc = new PVector(0,0);
     vel = new PVector(random(-1,1),random(-1,1));
     loc = new PVector(x,y);
@@ -49,10 +50,10 @@ class Boid {
     // What is the vector at that spot in the flow field?
     PVector desired = flow.lookup(loc);
     // Scale it up by maxspeed
-    desired.mult(maxspeed);
+    desired.mult(maxspeed*20);
     // Steering is desired minus velocity
     PVector steer = PVector.sub(desired, vel);
-    steer.limit(maxforce);  // Limit to maximum steering force
+    steer.limit(maxforce+10);  // Limit to maximum steering force
     applyForce(steer);
   }
 
@@ -100,8 +101,8 @@ class Boid {
   void render() {
     // Draw a triangle rotated in the direction of velocity
     float theta = vel.heading2D() + radians(90);
-    fill(175);
-    stroke(0);
+    fill(c);
+    noStroke();
     pushMatrix();
     translate(loc.x,loc.y);
     rotate(theta);

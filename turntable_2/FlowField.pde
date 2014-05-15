@@ -15,7 +15,7 @@ class FlowField {
     xoff = width/2; //x pos of center of field
     yoff = height/2; //y pos of center of field
     center = new PVector(xoff, yoff);
-    a = 600; //radius of the circular flowfield
+    a = 400; //radius of the circular flowfield
     flowBand = 5; //this will make the size of the circular flow field bigger or smaller (cannot be zero)
     for (int i = 0; i <cols; i++) {
       for (int j=0; j < rows; j++) {
