@@ -1,12 +1,4 @@
-// The Nature of Code
-// Daniel Shiffman
-// http://natureofcode.com
 
-float swt = 25.0;     //sep.mult(25.0f);
-float awt = 4.0;      //ali.mult(4.0f);
-float cwt = 5.0;      //coh.mult(5.0f);
-float maxspeed = 1;
-float maxforce = 0.025;
 
 
 // Flocking
@@ -17,23 +9,36 @@ float maxforce = 0.025;
 // Methods for Separation, Cohesion, Alignment added
 
 class Boid {
-
+  
+  float swt, awt, cwt;
+  float maxspeed = 3;
+  float maxforce = 0.025;
   PVector loc;
   PVector vel;
   PVector acc;
+  PVector center;
   float r;
-  FlowField f;
+  float d;
+  color c;
 
-  Boid(float x, float y) {
+
+  Boid(float x, float y, float _swt, float _awt, float _cwt, color _c) {
+    
+    swt = _swt;
+    awt = _awt;
+    cwt = _cwt;
+    c = _c;
     acc = new PVector(0,0);
     vel = new PVector(random(-1,1),random(-1,1));
     loc = new PVector(x,y);
     r = 2.0;
-    f = new FlowField(16);
+
+    center = new PVector(width/2, height/2);
   }
 
   void run(ArrayList<Boid> boids) {
     follow(f);
+    follow(f2);
     flock(boids);
     update();
     borders();
@@ -99,26 +104,34 @@ class Boid {
   
   void render() {
     // Draw a triangle rotated in the direction of velocity
+    
     float theta = vel.heading2D() + radians(90);
-    fill(175);
-    stroke(0);
-    pushMatrix();
-    translate(loc.x,loc.y);
-    rotate(theta);
-    beginShape(TRIANGLES);
-    vertex(0, -r*2);
-    vertex(-r, r*2);
-    vertex(r, r*2);
-    endShape();
-    popMatrix();
+    stroke(c);
+    strokeWeight(3);
+    point(loc.x, loc.y);
+//    noStroke();
+//    pushMatrix();
+//    translate(loc.x,loc.y);
+//    rotate(theta);
+//    beginShape(TRIANGLES);
+//    vertex(0, -r*2);
+//    vertex(-r, r*2);
+//    vertex(r, r*2);
+//    endShape();
+//    popMatrix();
   }
 
   // Wraparound
   void borders() {
-    if (loc.x < -r) loc.x = width+r;
-    if (loc.y < -r) loc.y = height+r;
-    if (loc.x > width+r) loc.x = -r;
-    if (loc.y > height+r) loc.y = -r;
+    PVector check = new PVector(loc.x, loc.y);
+    check.sub(center);
+    if ((check.mag() > f2.inside) && check.mag() <f2.outside) {
+      float x = random(0,1);
+      println(x);
+      if(x<.50){
+        vel.mult(-1);
+      }
+    }
   }
 
   // Separation
@@ -155,7 +168,7 @@ class Boid {
   // Alignment
   // For every nearby boid in the system, calculate the average velocity
   PVector align (ArrayList<Boid> boids) {
-    float neighbordist = 50.0;
+    float neighbordist = 25.0;
     PVector steer = new PVector();
     int count = 0;
     for (Boid other : boids) {
@@ -179,7 +192,7 @@ class Boid {
   // Cohesion
   // For the average location (i.e. center) of all nearby boids, calculate steering vector towards that location
   PVector cohesion (ArrayList<Boid> boids) {
-    float neighbordist = 50.0;
+    float neighbordist = 35.0;
     PVector sum = new PVector(0,0);   // Start with empty vector to accumulate all locations
     int count = 0;
     for (Boid other : boids) {
@@ -195,5 +208,6 @@ class Boid {
     }
     return sum;
   }
+ 
 }
 
