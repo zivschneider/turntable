@@ -29,7 +29,7 @@ class Vehicle {
 
   public void run() {
     update();
-    borders();
+//    borders();
     display();
   }
 
@@ -91,10 +91,10 @@ class Vehicle {
   }
 
   boolean kill() {
-        PVector temp = new PVector(location.x, location.y);
+    PVector temp = new PVector(location.x, location.y);
     PVector center = new PVector(width/2, height/2);
     temp.sub(center);
-    if((frameCount - frameCreated > 120) || (temp.mag()>250)){
+    if((frameCount - frameCreated > 15) || (temp.mag()>400)){
       return true;
     } else {
       return false;

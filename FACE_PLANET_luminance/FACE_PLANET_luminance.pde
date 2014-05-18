@@ -32,7 +32,7 @@ float d = 0;
 float luminance=0;
 
 void setup() {
-  size(640, 480);
+  size(1280, 960);
   // Set up columns and rows
   cols = width / cellSize;
   rows = height / cellSize;
@@ -94,7 +94,7 @@ void draw() {
         luminance = 0.299*r+0.587*g+0.114*b;
         if(luminance >high) high = luminance;
         if(luminance <low) low = luminance;
-        lumMid = (high - low)/3;
+        lumMid = (high - low)/2;
         d = luminance - lumMid;
 //        println(lumMid);
         float redAlpha = map(luminance, low, high, 0, 255);
