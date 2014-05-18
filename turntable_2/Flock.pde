@@ -18,10 +18,10 @@ class Flock {
     for (Boid b : boids1) {
       b.run(boids1);  // Passing the entire list of boids to each boid individually
     }
-    
     for (Boid b : boids2) {
       b.run(boids2);
     }
+
   }
 
   void addBoid(Boid b) {
